@@ -5,10 +5,10 @@ const studentNumber = document.querySelector("#ui_student_number");
 const stockHead = document.querySelector("#ui_stock_table_head");
 const stockBody = document.querySelector("#ui_stock_table_body");
 
-title.innerHTML = settings.projectTitle;
+title.innerHTML = studentSettings.projectTitle;
 // subtitle.innerHTML = studentDetails.studentName;
-studentName.innerHTML = settings.name;
-studentNumber.innerHTML = settings.studentNumber;
+studentName.innerHTML = studentSettings.name;
+studentNumber.innerHTML = studentSettings.studentNumber;
 
 // let studentClass = import(`../classes/${projectDetails.class}.js`);
 
