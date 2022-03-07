@@ -1,5 +1,3 @@
-import settings from "../settings.js";
-
 const title = document.querySelector("#ui_title");
 const subtitle = document.querySelector("#ui_subtitle");
 const studentName = document.querySelector("#ui_student_name");
