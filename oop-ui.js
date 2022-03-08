@@ -1,28 +1,78 @@
-if(studentSettings.clearStorage ?? true){
-  console.log("STORAGE CLEARED");
-  localStorage.clear();
-}
 
 const title = document.querySelector("#ui_title");
-const subtitle = document.querySelector("#ui_subtitle");
 const studentName = document.querySelector("#ui_student_name");
 const studentNumber = document.querySelector("#ui_student_number");
-const stockHead = document.querySelector("#ui_stock_table_head");
-const stockBody = document.querySelector("#ui_stock_table_body");
-const stockRefresh = document.querySelector("#ui_stock_table_refresh");
+const assignmentNumber = document.querySelector("#ui_assignment_number");
+const output = document.querySelector("#ui_output");
 
-const REFRESH_RATE = studentSettings.tableRefreshRate ?? 5;
-
-title.innerHTML = studentSettings.projectTitle;
-// subtitle.innerHTML = studentDetails.studentName;
-studentName.innerHTML = studentSettings.name;
+title.innerHTML = studentSettings.assignmentTitle;
+studentName.innerHTML = studentSettings.studentName;
 studentNumber.innerHTML = studentSettings.studentNumber;
+assignmentNumber.innerHTML = studentSettings.assignmentNumber;
 
-// let studentClass = import(`../classes/${projectDetails.class}.js`);
+const sectionDiv = document.querySelector("#ui_section_div");
 
+let section = (label, tableName, data, refresh = false) => {
 
-let tableMaker = (storageProperty) => {
-  let table = JSON.parse(localStorage.getItem(storageProperty));
+  let table = tableMaker(data);
+
+  let sectionHTML = `
+    <section id="ui_${tableName}_table_section" class="section pt-1">
+    <div class="container">
+      <article class="message is-light pb-4">
+        <div class="message-header">
+          <p>${label}</p>
+        </div>
+        <div class="message-body ml-5">
+          <div class="table-container">
+            <table class="table is-narrow is-bordered has-background-white-bis">
+            <thead>
+              <tr id="ui_${tableName}_table_head">
+              ${table.headings}
+              </tr>
+            </thead>
+            <tbody id="ui_${tableName}_table_body">
+            ${table.rows}
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+  `
+
+  if(refresh){
+    sectionHTML = `
+    <div class="container">
+      <article class="message is-light pb-4">
+        <div class="message-header">
+          <p>${tableName.charAt(0).toUpperCase() + tableName.slice(1)}</p>
+        </div>
+        <div class="message-body ml-5">
+          <div class="table-container">
+            <table class="table is-narrow is-bordered has-background-white-bis">
+            <thead>
+              <tr id="ui_${tableName}_table_head">
+              ${table.headings}
+              </tr>
+            </thead>
+            <tbody id="ui_${tableName}_table_body">
+            ${table.rows}
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+    </div>
+  `
+  }
+
+  return sectionHTML;
+}
+
+let tableMaker = (table) => {
+
   let headings = '';
   let rows = '';
   
@@ -33,10 +83,7 @@ let tableMaker = (storageProperty) => {
     }
   }
 
-  
   let products = Object.keys(table[0]);
-  console.log("UI stock");
-  console.log(products);
 
   products.forEach(element => {  
     headings += `<th>${element.charAt(0).toUpperCase() + element.slice(1)}</th>`; 
@@ -44,39 +91,143 @@ let tableMaker = (storageProperty) => {
 
   table.forEach(element => {  
     rows += '<tr>'
-    console.log(element);
     products.forEach((td, i) => {  
       rows += `<td>${element[td]}</td>`; 
     });
     rows += '</tr>';
   });
 
-  
   return {
     headings,
     rows
   }
 }
 
+function UITable(label, data) {
+  let name = label.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+  label = label.charAt(0).toUpperCase() + label.slice(1);
 
-//Stock table
-function makeStockTable(){
-  let stockTable = tableMaker('stock');
-  stockHead.innerHTML = stockTable.headings;
-  stockBody.innerHTML = stockTable.rows;  
-}
+  console.log(label);
+  const tableSection = document.querySelector(`#ui_${name}_table_section`);
 
-let count = REFRESH_RATE + 1;
-function stockTableCounter(){
-  count--;
-  if(count <= 0){
-    count = REFRESH_RATE;
+  if(tableSection){
+    tableSection.innerHTML = section(label, name, data, true)
   }
-  stockRefresh.innerHTML = count;
+  else{
+    sectionDiv.innerHTML += section(label, name, data);
+  }
+  
 }
 
-makeStockTable();
-stockTableCounter();
+function UIOutput(html){
+  output.innerHTML += html;
+}
 
-setInterval(makeStockTable, REFRESH_RATE*1000);
-setInterval(stockTableCounter, 1000);
+
+let displayTester = () => {
+  if(testsArray.includes(studentSettings.assignmentNumber)){
+
+    let runTests = document.querySelector('#ui_run_test');
+  
+    runTests.innerHTML = `<button class="button is-primary is-outlined">Run Tests</button>`;
+  
+    runTests.addEventListener('click', () => {
+      mocha.run();
+    });
+  
+    let mocha_css = document.createElement('link');
+    mocha_css.setAttribute('rel','stylesheet');
+    mocha_css.setAttribute('href','https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@main/lib/mocha.css');
+    document.head.appendChild(mocha_css);
+  
+    function loadScripts(array,callback){
+      var loader = function(src,handler){
+          var script = document.createElement("script");
+          script.src = src;
+          script.onload = script.onreadystatechange = function(){
+              script.onreadystatechange = script.onload = null;
+              handler();
+          }
+          document.body.appendChild(script);
+      };
+      (function run(){
+          if(array.length!=0){
+              loader(array.shift(), run);
+          }else{
+              callback && callback();
+          }
+      })();
+  }
+  
+  loadScripts([
+    "https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@main/lib/chai.js",
+    "https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@main/lib/mocha.js"
+  ],function(){
+    mocha.setup({
+      ui: 'bdd',
+      fullTrace: false
+    });
+  
+    // `https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@main/tests/${studentSettings.assignmentNumber}.js`
+    loadScripts([
+      `includes/${studentSettings.assignmentNumber}.js`,
+    ], function(){
+      
+      if(studentSettings.includeStack){
+        chai.config.includeStack = true;
+      }
+      else{
+        chai.config.includeStack = false;
+        after(function () {
+          // runs after each test in this block
+          let testBlock = document.querySelectorAll('#mocha-report .suite pre.error');
+          console.log(testBlock);
+          testBlock.forEach((el) => {
+            el.style.display = "none";
+          });
+          
+        });
+      }
+      
+    })
+  });
+  
+  
+    // let setupTests = async () => {
+  
+    //   await setupLibs();
+    //   let test_script = document.createElement('script');
+    //   test_script.setAttribute('src',`includes/${studentSettings.assignmentNumber}.js`);
+    //   document.body.appendChild(test_script);
+    // }
+    
+    // let setupLibs = async () => {
+    //   let chai_script = document.createElement('script');
+    //   let mocha_script = document.createElement('script');
+    //   let mocha_css = document.createElement('link');
+    
+    //   chai_script.setAttribute('src','https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@latest/lib/chai.js');
+    //   mocha_script.setAttribute('src','https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@latest/lib/mocha.js');
+    //   mocha_css.setAttribute('rel','stylesheet');
+    //   mocha_css.setAttribute('href','https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@latest/lib/mocha.css');
+    
+    //   // chai_script.onload = () => {
+    
+    //   // };
+    //   document.body.appendChild(chai_script);
+    //   document.body.appendChild(mocha_script);
+    //   document.head.appendChild(mocha_css);
+    
+    // }
+    
+    // setupTests();  
+  }
+}
+
+
+fetch('https://raw.githubusercontent.com/MohammedChe/oop-template/main/assignment_tests.json')
+  .then(response => response.json())
+  .then(data => testsArray = data)
+  .then(() => {
+    displayTester()
+  });
