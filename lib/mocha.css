@@ -5,7 +5,7 @@ body {
 }
 
 #mocha {
-  font: 20px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 24px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #mocha ul,
@@ -48,7 +48,7 @@ body {
 }
 
 #mocha h2 {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: normal;
   cursor: pointer;
 }
@@ -77,7 +77,7 @@ body {
 
 #mocha .test.pass::before {
   content: '✓';
-  font-size: 12px;
+  font-size: 16px;
   display: block;
   float: left;
   margin-right: 5px;
@@ -122,7 +122,7 @@ body {
 
 #mocha .test.fail::before {
   content: '✖';
-  font-size: 12px;
+  font-size: 16px;
   display: block;
   float: left;
   margin-right: 5px;
