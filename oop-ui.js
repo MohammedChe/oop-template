@@ -170,7 +170,7 @@ let displayTester = () => {
   
     // `https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@main/tests/${studentSettings.assignmentNumber}.js`
     loadScripts([
-      `https://cdn.jsdelivr.net/gh/MohammedChe/oop-template@main/tests/${studentSettings.assignmentNumber}.js`,
+      `https://cdn.jsdelivr.net/gh/MohammedChe/oop-template/tests/${studentSettings.assignmentNumber}.js`,
     ], function(){
       
       if(studentSettings.includeStack){
