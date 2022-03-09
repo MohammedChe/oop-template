@@ -123,6 +123,13 @@ function UIOutput(html){
   output.innerHTML += html;
 }
 
+function UITestClass(cls){
+  let name = cls.prototype.constructor.name;
+  window[name] = cls;
+  window.testClasses = [];
+  window.testClasses.push(cls)
+}
+
 
 let displayTester = () => {
   if(testsArray.includes(studentSettings.assignmentNumber)){
@@ -225,9 +232,82 @@ let displayTester = () => {
 }
 
 
-fetch('https://raw.githubusercontent.com/MohammedChe/oop-template/main/assignment_tests.json')
+let displayHelp = (data) => {
+
+  let modalHelp = document.querySelector("#modal-help");
+  let modalTitle = document.querySelector(".modal-card-title");
+  let modalBody = document.querySelector(".modal-card-body");
+  let modalBtn = document.querySelector("#modal-help-btn");
+  let modalBtnClick = document.querySelectorAll(".modal-help-btn-click");
+
+  modalTitle.innerHTML = `Assignment ${studentSettings.assignmentNumber} Info`;
+  modalBody.innerHTML = data;
+  modalBtn.innerHTML = `<span class="button is-small is-primary is-rounded is-outlined mt-2"><span class="icon mr-0"><i class="fas fa-question-circle"></i></span>Help!</span>`;
+
+// console.log(modalBtnClick);
+// modalBtnClick.forEach(el => console.log(el));
+
+modalBtnClick.forEach(el => el.addEventListener('click', () => {
+    // console.log(data);
+    modalHelp.classList.toggle("is-active");
+}));
+  
+}
+
+
+fetch('https://raw.githubusercontent.com/MohammedChe/oop-template/main/tests/assignment_tests.json')
   .then(response => response.json())
-  .then(data => testsArray = data)
+  .then(data => {
+    console.log(data)
+    testsArray = data
+  })
   .then(() => {
     displayTester()
+  })
+  .catch((err) => {
+    console.log(err)
+  });
+
+
+let getHelp = () => {
+  fetch(`https://raw.githubusercontent.com/MohammedChe/oop-template/main/help/${studentSettings.assignmentNumber}.html`)
+    .then(response => response.text())
+    .then(data => {
+      displayHelp(data);
+    }).then(() => {
+      hljs.highlightAll();
+    });
+}
+
+fetch('https://raw.githubusercontent.com/MohammedChe/oop-template/main/help/assignment_help.json')
+  .then(response => response.json())
+  .then(data => helpArray = data)
+  .then(() => {
+    let highlight = false;
+    if(!helpArray.includes(studentSettings.assignmentNumber)){
+      let help = `
+      <pre>
+            <code class="language-javascript">
+            // the following methods are available:
+            <b>UITable(label, data);</b> // takes in a label and data, displays a table of the data in the UI
+            <b>UIOutput(html);</b> // takes in html or text and displays it in the UI Output
+            <b>UITestClass(cls);</b> // takes in a class and makes it available in the console
+          </code>
+        </pre>
+      `;
+
+      displayHelp(help)
+      highlight = true
+    }
+    else {
+      getHelp();
+    }
+
+    return highlight
+      
+  })
+  .then((highlight) => {
+    if(highlight){
+      hljs.highlightAll();
+    }
   });
