@@ -107,7 +107,7 @@ function UITable(label, data) {
   let name = label.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
   label = label.charAt(0).toUpperCase() + label.slice(1);
 
-  console.log(label);
+//   console.log(label);
   const tableSection = document.querySelector(`#ui_${name}_table_section`);
 
   if(tableSection){
@@ -188,7 +188,7 @@ let displayTester = () => {
         after(function () {
           // runs after each test in this block
           let testBlock = document.querySelectorAll('#mocha-report .suite pre.error');
-          console.log(testBlock);
+//           console.log(testBlock);
           testBlock.forEach((el) => {
             el.style.display = "none";
           });
@@ -258,14 +258,14 @@ modalBtnClick.forEach(el => el.addEventListener('click', () => {
 fetch('https://raw.githubusercontent.com/MohammedChe/oop-template/main/tests/assignment_tests.json')
   .then(response => response.json())
   .then(data => {
-    console.log(data)
+//     console.log(data)
     testsArray = data
   })
   .then(() => {
     displayTester()
   })
   .catch((err) => {
-    console.log(err)
+//     console.log(err)
   });
 
 
