@@ -1,0 +1,43 @@
+        <div class="block">
+          Access the data in your JSON file by looping through the five objects and displaying their contents in the output. <br><br>
+        </div>
+        <div class="block">
+          <pre>
+            <code class="language-javascript">
+/////////////////ANSWER////////////////
+your answer goes here
+/////////////////////////////////////
+          </code>
+        </pre>
+        </div>
+        <div class="block">
+          Output data from your json file using the output variable.
+          <pre>
+            <code class="language-javascript">
+/////////////////ANSWER////////////////
+output += json[0].title; //<-- will output the first festival's title
+output += json[1].title; //<-- will output the second festival's title
+output += json[2].title; //<-- will output the third festival's title
+/////////////////////////////////////
+          </code>
+        </pre>
+        </div>
+        <div class="block">
+          Loop through your json objects (mine are festivals so I named the variable festival)
+          use the <code>arrayName.forEach((elementInArray)=>{//do stuff});</code>
+          <pre>
+            <code class="language-javascript">
+/////////////////ANSWER////////////////
+json.forEach((festival)=>{
+//multiline output
+output += `
+this text will be outputted
+${festival.title}
+${festival.description}
+so will this one
+`;
+});
+/////////////////////////////////////
+          </code>
+        </pre>
+        </div>
