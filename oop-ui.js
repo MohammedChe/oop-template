@@ -4,6 +4,8 @@ const studentName = document.querySelector("#ui_student_name");
 const studentNumber = document.querySelector("#ui_student_number");
 const assignmentNumber = document.querySelector("#ui_assignment_number");
 const output = document.querySelector("#ui_output");
+const outputSection = document.querySelector("#ui_output_section");
+outputSection.style.display = "none";
 
 title.innerHTML = studentSettings.assignmentTitle;
 studentName.innerHTML = studentSettings.studentName;
@@ -103,11 +105,15 @@ let tableMaker = (table) => {
   }
 }
 
+//////////////////////
+///////PUBLIC METHODS///////////
+//////////////////////
+
 function UITable(label, data) {
   let name = label.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
   label = label.charAt(0).toUpperCase() + label.slice(1);
 
-//   console.log(label);
+  // console.log(label);
   const tableSection = document.querySelector(`#ui_${name}_table_section`);
 
   if(tableSection){
@@ -120,6 +126,7 @@ function UITable(label, data) {
 }
 
 function UIOutput(html){
+  outputSection.style.display = "block";
   output.innerHTML += html;
 }
 
@@ -129,6 +136,31 @@ function UITestClass(cls){
   window.testClasses = [];
   window.testClasses.push(cls)
 }
+
+let attachmentCounter = 0;
+
+function UIAttach(obj, name = "none"){
+
+  if(obj.prototype && obj.prototype.constructor && name === "none"){
+    name = obj.prototype.constructor.name;
+  }
+  else if(name === "none"){
+    attachmentCounter++;
+    name = `obj${attachmentCounter}`;
+    // fetch('/app.js')
+    //   .then(response => response.text())
+    //   .then(data => {
+    //     console.log(data)
+    //     console.log(data.indexOf("UIAttach(", (attachmentCounter + 1)))
+    //   })
+  }
+
+  window[name] = obj;
+}
+
+//////////////////////
+//////////////////////
+//////////////////////
 
 
 let displayTester = () => {
@@ -188,7 +220,7 @@ let displayTester = () => {
         after(function () {
           // runs after each test in this block
           let testBlock = document.querySelectorAll('#mocha-report .suite pre.error');
-//           console.log(testBlock);
+          // console.log(testBlock);
           testBlock.forEach((el) => {
             el.style.display = "none";
           });
@@ -258,14 +290,14 @@ modalBtnClick.forEach(el => el.addEventListener('click', () => {
 fetch('https://raw.githubusercontent.com/MohammedChe/oop-template/main/tests/assignment_tests.json')
   .then(response => response.json())
   .then(data => {
-//     console.log(data)
+    // console.log(data)
     testsArray = data
   })
   .then(() => {
     displayTester()
   })
   .catch((err) => {
-//     console.log(err)
+    // console.log(err)
   });
 
 
@@ -283,31 +315,31 @@ fetch('https://raw.githubusercontent.com/MohammedChe/oop-template/main/help/assi
   .then(response => response.json())
   .then(data => helpArray = data)
   .then(() => {
-    let highlight = false;
+    // let highlight = false;
     if(!helpArray.includes(studentSettings.assignmentNumber)){
-      let help = `
-      <pre>
-            <code class="language-javascript">
-            // the following methods are available:
-            <b>UITable(label, data);</b> // takes in a label and data, displays a table of the data in the UI
-            <b>UIOutput(html);</b> // takes in html or text and displays it in the UI Output
-            <b>UITestClass(cls);</b> // takes in a class and makes it available in the console
-          </code>
-        </pre>
-      `;
+      // let help = `
+      // <pre>
+      //       <code class="language-javascript">
+      //       // the following methods are available:
+      //       <b>UITable(label, data);</b> // takes in a label and data, displays a table of the data in the UI
+      //       <b>UIOutput(html);</b> // takes in html or text and displays it in the UI Output
+      //       <b>UITestClass(cls);</b> // takes in a class and makes it available in the console
+      //     </code>
+      //   </pre>
+      // `;
 
-      displayHelp(help)
-      highlight = true
+      // displayHelp(help)
+      // highlight = true
     }
     else {
       getHelp();
     }
 
-    return highlight
+    // return highlight
       
   })
-  .then((highlight) => {
-    if(highlight){
-      hljs.highlightAll();
-    }
-  });
+  // .then((highlight) => {
+  //   if(highlight){
+  //     hljs.highlightAll();
+  //   }
+  // });
