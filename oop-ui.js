@@ -151,7 +151,7 @@ function UIAttach(obj){
     }
   }
   else{
-    alert("There's an error in one of your UIAttach, Are you forgetting the {}? Example: UIAttach({});");
+    alert("There's an error in one of your UIAttach, Are you forgetting the {}? Example: UIAttach({Book});");
   }
 }
 
