@@ -130,33 +130,51 @@ function UIOutput(html){
   output.innerHTML += html;
 }
 
-function UITestClass(cls){
-  let name = cls.prototype.constructor.name;
-  window[name] = cls;
-  window.testClasses = [];
-  window.testClasses.push(cls)
+// function UITestClass(cls){
+//   let name = cls.prototype.constructor.name;
+//   window[name] = cls;
+//   window.testClasses = [];
+//   window.testClasses.push(cls)
+// }
+
+function UIAttach(obj){
+  let key;
+  let value;
+  if(obj instanceof Object && Object.keys(obj) && Object.keys(obj)[0] && typeof(Object.keys(obj)[0]) === 'string'){
+    key = Object.keys(obj)[0];
+    value = Object.values(obj)[0];
+    window[key] = value;
+
+    if(value.prototype && value.prototype.constructor){
+      window.testClasses = [];
+      window.testClasses.push(value)
+    }
+  }
+  else{
+    alert("There's an error in one of your UIAttach, Are you forgetting the {}? Example: UIAttach({});");
+  }
 }
 
-let attachmentCounter = 0;
+// let attachmentCounter = 0;
 
-function UIAttach(obj, name = "none"){
+// function UIAttach(obj, name = "none"){
 
-  if(obj.prototype && obj.prototype.constructor && name === "none"){
-    name = obj.prototype.constructor.name;
-  }
-  else if(name === "none"){
-    attachmentCounter++;
-    name = `obj${attachmentCounter}`;
-    // fetch('/app.js')
-    //   .then(response => response.text())
-    //   .then(data => {
-    //     console.log(data)
-    //     console.log(data.indexOf("UIAttach(", (attachmentCounter + 1)))
-    //   })
-  }
+//   if(obj.prototype && obj.prototype.constructor && name === "none"){
+//     name = obj.prototype.constructor.name;
+//   }
+//   else if(name === "none"){
+//     attachmentCounter++;
+//     name = `obj${attachmentCounter}`;
+//     // fetch('/app.js')
+//     //   .then(response => response.text())
+//     //   .then(data => {
+//     //     console.log(data)
+//     //     console.log(data.indexOf("UIAttach(", (attachmentCounter + 1)))
+//     //   })
+//   }
 
-  window[name] = obj;
-}
+//   window[name] = obj;
+// }
 
 //////////////////////
 //////////////////////
