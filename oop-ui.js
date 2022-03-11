@@ -1,16 +1,15 @@
+const UI_title = document.querySelector("#ui_title");
+const UI_studentName = document.querySelector("#ui_student_name");
+const UI_studentNumber = document.querySelector("#ui_student_number");
+const UI_assignmentNumber = document.querySelector("#ui_assignment_number");
+const UI_output = document.querySelector("#ui_output");
+const UI_outputSection = document.querySelector("#ui_output_section");
+UI_outputSection.style.display = "none";
 
-const title = document.querySelector("#ui_title");
-const studentName = document.querySelector("#ui_student_name");
-const studentNumber = document.querySelector("#ui_student_number");
-const assignmentNumber = document.querySelector("#ui_assignment_number");
-const output = document.querySelector("#ui_output");
-const outputSection = document.querySelector("#ui_output_section");
-outputSection.style.display = "none";
-
-title.innerHTML = studentSettings.assignmentTitle;
-studentName.innerHTML = studentSettings.studentName;
-studentNumber.innerHTML = studentSettings.studentNumber;
-assignmentNumber.innerHTML = studentSettings.assignmentNumber;
+UI_title.innerHTML = studentSettings.assignmentTitle;
+UI_studentName.innerHTML = studentSettings.studentName;
+UI_studentNumber.innerHTML = studentSettings.studentNumber;
+UI_assignmentNumber.innerHTML = studentSettings.assignmentNumber;
 
 const sectionDiv = document.querySelector("#ui_section_div");
 
@@ -126,8 +125,8 @@ function UITable(label, data) {
 }
 
 function UIOutput(html){
-  outputSection.style.display = "block";
-  output.innerHTML += html;
+  UI_outputSection.style.display = "block";
+  UI_output.innerHTML += html;
 }
 
 // function UITestClass(cls){
@@ -151,7 +150,7 @@ function UIAttach(obj){
     }
   }
   else{
-    alert("There's an error in one of your UIAttach, Are you forgetting the {}? Example: UIAttach({Book});");
+    alert("There's an error in one of your UIAttach, Are you forgetting the {}? Example: UIAttach({});");
   }
 }
 
